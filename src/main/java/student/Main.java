@@ -1,4 +1,4 @@
-package 学生管理系统;
+package student;
 
 import java.util.Scanner;
 
@@ -43,6 +43,7 @@ public class Main {
                     break;
                 case 4:
                     System.out.println(studentManger.FindAllStudents());
+                    break;
                 case 0:
                     studentManger.saveToFile();
                     sc.close();

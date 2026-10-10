@@ -1,4 +1,4 @@
-package 学生管理系统;
+package student;
 
 public class Student {
     public String name;
