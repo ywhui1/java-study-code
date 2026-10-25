@@ -1,30 +1,62 @@
 package book;
-
 import java.util.Scanner;
 //项目目标： 不连数据库，用 ArrayList/HashMap 存数据，控制台菜单实现：
 //用户登录校验（内存里写死或存集合）
 //图书增删改查
 //按书名/作者查询
 //借书、还书（先不做库存事务，只改状态）
+//---------------------------------------------------------
+//第2周 10.14-10.20;
+//文件持久化版 + Maven/Linux;
+//多线程基础、IO、Maven、Git进阶、Linux;
+//讲清线程5状态；Maven建项目打jar；
+//Linux装JDK运行jar；IO持久化重启不丢；
+//synchronized示例；LeetCode累计25道
 public class Main {
+    private static final long serialVersionUID = 1L;
     public static void main(String[] args) {
         bookmanage manager = new bookmanage();
+        manager.setMap(bookdata.loadbooks());
         Scanner sc = new Scanner(System.in);
         System.out.println("图书管理系统");
-
-        user u = new user();
-        while(true){
-            System.out.println("ID:");
-            String id = sc.nextLine().trim();
-            System.out.println("密码:");
-            String password = sc.nextLine().trim();
-            if(u.login(id, password)){
-                System.out.println("登录成功");
+        usermanager um=new usermanager();
+        int k;
+        while (true){
+            System.out.println("1,登录");
+            System.out.println("2,注册");
+            try {
+                k = Integer.parseInt(sc.nextLine().trim());  // 统一用 nextLine
+            } catch (NumberFormatException e) {
+                System.out.println("输入错误");
+                continue;
+            }
+            if(k==1){
+                while(true){
+                    System.out.println("ID:");
+                    String id = sc.nextLine().trim();
+                    System.out.println("密码:");
+                    String password = sc.nextLine().trim();
+                    if(um.login(id, password)){
+                        System.out.println("登录成功");
+                        break;
+                    }
+                    System.out.println("登录失败");
+                }
                 break;
             }
-            System.out.println("登录失败");
+            else if(k==2){
+                System.out.println("ID:");
+                String id = sc.nextLine().trim();
+                System.out.println("密码:");
+                String password = sc.nextLine().trim();
+                if(um.register(id,password)){
+                    System.out.println("注册成功，请登录");
+                    userdate.save(um.getUsers());
+                }
+                else System.out.println("注册失败");
+            }
+            else{System.out.println("输入错误");}
         }
-
         while(true){
             System.out.println("1，添加");
             System.out.println("2，删除");
@@ -42,7 +74,11 @@ public class Main {
                 System.out.println("输入错误");
                 continue;
             }
-            if(a==0) break;
+            if(a==0) {
+                bookdata.save(manager.getMap());
+                userdate.save(um.getUsers());
+                break;
+            }
             switch (a){
                 case 1:
                     System.out.println("请输入书名:");
@@ -78,6 +114,7 @@ public class Main {
                     System.out.println("输入错误");
                     break;
             }
+            bookdata.save(manager.getMap());
         }
 
     }

@@ -1,10 +1,15 @@
 package book;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class bookmanage {
-    Map<String, book> map = new HashMap<String, book>();
+    public Map<String, book> getMap() {
+        return map;
+    }
+    public void setMap(Map<String, book> map) {
+        this.map = map;
+    }
+    private Map<String, book> map = new HashMap<String, book>();
     //添加
     public void addBook(String name,String author){
         if(map.containsKey(name)){
@@ -47,16 +52,12 @@ public class bookmanage {
     public void borrowBook(String name){
         book b = map.get(name);
         if(b == null){ System.out.println("书不存在"); return; }
-        if(b.isBorrowed()){ System.out.println("已被借出"); return; }
-        b.setBorrowed(true);
-        System.out.println("借书成功");
+        b.borrow();
     }
     //还书
-    public void returnBook(String name){
+    public void returnBook(String name) {
         book b = map.get(name);
-        if(b == null){ System.out.println("还书失败，书不存在"); return; }
-        if(!b.isBorrowed()){ System.out.println("该书未被借出"); return; }
-        b.setBorrowed(false);
-        System.out.println("还书成功");
+        if(b== null){ System.out.println("还书失败，书不存在");  }
+        b.returnbook();
     }
 }
