@@ -1,41 +1,25 @@
 package book;
-import java.util.HashMap;
-import java.util.Map;
 
 public class usermanager {
-    public Map<String, user> getUsers() {
-        return users;
-    }
+    UserDao userDao = new UserDaoImpl();
 
-    public void setUsers(Map<String, user> users) {
-        this.users = users;
-    }
-
-    private Map<String,user> users= new HashMap<>();
-
-    public usermanager() {
-        users = userdate.loadusers();
-        if (!users.containsKey("admin")) {
-            users.put("admin", new user("admin", "123456"));
-        }
-    }
-
-    public boolean login(String id, String password){
-        if(users.containsKey(id)){
-            user b = users.get(id);
-            if(b.getPassword().equals(password)){
-                return true;
-            }
+    // 登录：传用户名和密码
+    public Boolean login(String username, String password){
+        user u = userDao.findByUsername(username);
+        if(u != null && u.getPassword().equals(password)){
+            return true;
         }
         return false;
     }
 
-    public boolean register(String id, String password){
-        if(users.containsKey(id)){
-            System.out.println("ID重复了");
+    // 注册：不需要传 id，数据库会自动生成
+    public boolean register(String username, String password){
+        // 1. 查重：看用户名是不是已经有人用了
+        if(userDao.findByUsername(username) != null){
+            System.out.println("该用户名已被注册！");
             return false;
         }
-        users.put(id,new user(id,password));
-            return  true;
+        // 2. 插入
+        return userDao.insert(new user(username, password));
     }
 }

@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>day</name>
-    <description>Java 练习代码：day1 / day2 / 学生管理系统</description>
+    <description>Java 练习代码：day1 / day2 / 学生管理系统/ 图书管理系统</description>
 
     <properties>
         <!-- 统一到 Java 11，与 JAVA_HOME 保持一致 -->
@@ -20,7 +20,14 @@
         <!-- 默认运行的主类，可用 -Dexec.mainClass=day1.Main 覆盖 -->
         <exec.mainClass>student.Main</exec.mainClass>
     </properties>
-
+    <!-- 数据库驱动依赖 -->
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version> <!-- 如果你是 MySQL 8.0 及以上，用这个版本 -->
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <!-- 编译：显式锁定版本 + 指定 UTF-8，避免中文乱码 -->

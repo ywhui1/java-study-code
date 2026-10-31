@@ -2,12 +2,12 @@ package book;
 import java.io.Serializable;
 public class user implements Serializable{
     private static final long serialVersionUID = 1L;
-    private String id;
-    public String getId() {
-        return id;
+    private String username;
+    public String getUsername() {
+        return username;
     }
-    public void setId(String id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
     private String password;
     public String getPassword() {
@@ -17,8 +17,8 @@ public class user implements Serializable{
         this.password = password;
     }
     user() {}
-    user(String id, String password) {
-        this.id = id;
+    user(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 }

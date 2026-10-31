@@ -16,7 +16,6 @@ public class Main {
     private static final long serialVersionUID = 1L;
     public static void main(String[] args) {
         bookmanage manager = new bookmanage();
-        manager.setMap(bookdata.loadbooks());
         Scanner sc = new Scanner(System.in);
         System.out.println("图书管理系统");
         usermanager um=new usermanager();
@@ -25,18 +24,18 @@ public class Main {
             System.out.println("1,登录");
             System.out.println("2,注册");
             try {
-                k = Integer.parseInt(sc.nextLine().trim());  // 统一用 nextLine
+                k = Integer.parseInt(sc.nextLine().trim()); //nextInt()读完会把回车符留在缓冲区，影响后续键盘读取
             } catch (NumberFormatException e) {
                 System.out.println("输入错误");
                 continue;
             }
             if(k==1){
                 while(true){
-                    System.out.println("ID:");
-                    String id = sc.nextLine().trim();
+                    System.out.println("用户名:");
+                    String username = sc.nextLine().trim();
                     System.out.println("密码:");
                     String password = sc.nextLine().trim();
-                    if(um.login(id, password)){
+                    if(um.login(username, password)){
                         System.out.println("登录成功");
                         break;
                     }
@@ -45,13 +44,12 @@ public class Main {
                 break;
             }
             else if(k==2){
-                System.out.println("ID:");
-                String id = sc.nextLine().trim();
+                System.out.println("用户名");
+                String username = sc.nextLine().trim();
                 System.out.println("密码:");
                 String password = sc.nextLine().trim();
-                if(um.register(id,password)){
+                if(um.register(username,password)){
                     System.out.println("注册成功，请登录");
-                    userdate.save(um.getUsers());
                 }
                 else System.out.println("注册失败");
             }
@@ -75,17 +73,15 @@ public class Main {
                 continue;
             }
             if(a==0) {
-                bookdata.save(manager.getMap());
-                userdate.save(um.getUsers());
                 break;
             }
             switch (a){
                 case 1:
                     System.out.println("请输入书名:");
-                    String name = sc.nextLine().trim();
+                    String bookname = sc.nextLine().trim();
                     System.out.println("请输入作者名:");
                     String author = sc.nextLine().trim();
-                    manager.addBook(name, author);
+                    manager.addBook(bookname, author);
                     break;
                 case 2:
                     System.out.println("请输入书名:");
@@ -93,10 +89,10 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("请输入书名:");
-                    name = sc.nextLine().trim();
+                    bookname = sc.nextLine().trim();
                     System.out.println("请输入作者名:");
                     author = sc.nextLine().trim();
-                    manager.changeBook(name, author);
+                    manager.changeBook(bookname, author);
                     break;
                 case 4:
                     System.out.println("请输入书名:");
@@ -114,7 +110,6 @@ public class Main {
                     System.out.println("输入错误");
                     break;
             }
-            bookdata.save(manager.getMap());
         }
 
     }
